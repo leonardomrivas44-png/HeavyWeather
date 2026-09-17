@@ -27,7 +27,7 @@ You play as the weather-wizard JayKay, clearing the mysterious tower of its dang
 ### Credits
 * **Leonardo Rivas** (That's me!) — Sole Programmer / Lead Designer / UI Lead / Composer for *"Baalroom Showdown"* & *"Passage Prelude"*.
 * **Grissom Sale** — Title Screen Artwork.
-* **Hayden Doorson** — Composer for *"Foot of the Tower"* & Title Screen Music.
+* **Hayden Doorson** — Composer for *"Foot of the Tower"* AKA Title Screen Music.
 
 #### Audio Design Credits
 Most audio comes from [kenney.nl](https://kenney.nl). The following tracks are sourced from Pixabay:
