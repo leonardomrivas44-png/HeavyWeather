@@ -30,4 +30,4 @@ Room Generation:
     HOWEVER, if the player has already passed the first 2 parts, room generation is overridden and the room list is manually populated with the PASSAGE and BOSS rooms.
   After creation, the generator persists and draws out the map on the HUD, defining room connections and coordinates.
 
-![Part 1 map example][Screenshots-and-Images/image.png]
+![Part 1 map example](Screenshots-and-Images/image.png)
