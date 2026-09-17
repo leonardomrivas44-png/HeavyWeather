@@ -31,6 +31,7 @@ This file serves as a technical explanation of the more complex systems of Heavy
 * After creation, the generator persists and draws out the map on the HUD, defining room connections and coordinates.
 
 ![Part 1 map example](image.png)
+
 Fun fact: the map display was initially used for playtesting and debugging, but playtesters found it to be too helpful to remove. Thus, it was given its own place in your arsenal.
 
 #### Room movement:
