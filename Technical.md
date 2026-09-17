@@ -20,8 +20,8 @@ This file serves as a technical explanation of the more complex systems of Heavy
 * Using this struct, the generator places the starting room at `0,0` with an ID of `0` in the array and starts the creation loop.
   * This loop holds an algorithm which ends after creating a random amount of rooms, dependent on which part the player is on.
   * Using a random room from the array as a base, the algorithm picks a random direction and checks for population:
-    * **If populated:** The algorithm continues without creating a new room, not incrementing the loop.
-    * **Else:** The prospective room is created and fills out the connection with the base room and new room, incrementing the loop.
+    * **If occupied:** The algorithm continues without creating a new room, not incrementing the loop.
+    * **Else:** The prospective room is created and records the connection with the base room and new room, incrementing the loop.
 * After the array is populated, leftover room artifacts are cleared and certain rooms are picked for special properties:
   * **Room ID 0** (starting room, center of map) is set as the `START` room, removing any enemies in it.
   * The dead-end room physically closest, or one of the closest, is set as the `TREASURE` room, holding unique scenery and the Chest object.
@@ -31,3 +31,23 @@ This file serves as a technical explanation of the more complex systems of Heavy
 * After creation, the generator persists and draws out the map on the HUD, defining room connections and coordinates.
 
 ![Part 1 map example](image.png)
+Fun fact: the map display was initially used for playtesting and debugging, but playtesters found it to be too helpful to remove. Thus, it was given its own place in your arsenal.
+
+#### Room movement:
+* Starting at Room 0, movements are initiated by Door objects.
+ * Doors are locked if enemy count is above 0.
+* After contact with an open door, the floor controller's fade effect is set to 'FADING OUT' and player and enemies are frozen:
+ * When the fade effect reaches 1 (max opaque), the floor generator checks what object called it.
+   * 'DOOR:' the next room is accessed
+   * 'LADDER:' the room list is cleared, part is increased, and a new map is generated
+   * 'BOSS DOOR:' the room list is cleared, and the boss segment loads in place of a map
+* During the 'DOOR' fade, the current room is unloaded and
+ * the background is set to the new room's (important for special rooms)
+ * The correct wall-barriers and doors are loaded
+ * Camera, player positioning, and special objects are loaded.
+ * Using the room's 'contents' variable, certain actions are taken
+  * 'COMBAT:' enemies are loaded (only on specifically combat rooms)
+  * 'TREASURE' & 'TRADER' both heal the player
+  * 'BOSS:' loads the boss
+  * After which, housekeeping such as refilling items, setting 'visited' to true, and setting fade to 'FADING IN'.
+* After the fade in is completed, player and enemies are unfrozen, completing the movement.
