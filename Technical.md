@@ -36,19 +36,19 @@ Fun fact: the map display was initially used for playtesting and debugging, but 
 
 #### Room movement:
 * Starting at Room 0, movements are initiated by Door objects.
- * Doors are locked if enemy count is above 0.
+  * Doors are locked if enemy count is above 0.
 * After contact with an open door, the floor controller's fade effect is set to 'FADING OUT' and player and enemies are frozen:
- * When the fade effect reaches 1 (max opaque), the floor generator checks what object called it.
-   * 'DOOR:' the next room is accessed
-   * 'LADDER:' the room list is cleared, part is increased, and a new map is generated
-   * 'BOSS DOOR:' the room list is cleared, and the boss segment loads in place of a map
+  * When the fade effect reaches 1 (max opaque), the floor generator checks what object called it.
+    * 'DOOR:' the next room is accessed
+    * 'LADDER:' the room list is cleared, part is increased, and a new map is generated
+    * 'BOSS DOOR:' the room list is cleared, and the boss segment loads in place of a map
 * During the 'DOOR' fade, the current room is unloaded and
- * the background is set to the new room's (important for special rooms)
- * The correct wall-barriers and doors are loaded
- * Camera, player positioning, and special objects are loaded.
- * Using the room's 'contents' variable, certain actions are taken
-  * 'COMBAT:' enemies are loaded (only on specifically combat rooms)
-  * 'TREASURE' & 'TRADER' both heal the player
-  * 'BOSS:' loads the boss
-  * After which, housekeeping such as refilling items, setting 'visited' to true, and setting fade to 'FADING IN'.
+  * the background is set to the new room's (important for special rooms)
+  * The correct wall-barriers and doors are loaded
+  * Camera, player positioning, and special objects are loaded.
+  * Using the room's 'contents' variable, certain actions are taken
+    * 'COMBAT:' enemies are loaded (only on specifically combat rooms)
+    * 'TREASURE' & 'TRADER' both heal the player
+    * 'BOSS:' loads the boss
+    * After which, housekeeping such as refilling items, setting 'visited' to true, and setting fade to 'FADING IN'.
 * After the fade in is completed, player and enemies are unfrozen, completing the movement.
