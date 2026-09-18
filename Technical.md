@@ -69,6 +69,8 @@ Fun fact: the map display was initially used for playtesting and debugging, but 
  * Hovering over the perks icon in the perk menu displays its name, a short description, its requirements, and its availability `LOCKED`, `AVAILABLE`, `UNLOCKED`.
  * Perk availability is checked constantly by a function, assessing if both a perk's requirements are met and if it's still `LOCKED`.
 
+![Screenshot of the Perk Menu](PerkDisplay.png)
+
 #### Enemy Formations:
 * Each enemy is placed in a 'pool', defining what characteristic it has, such as `light`, `ranged`, `heavy`, or `special`.
 * The formation is recorded as an array of structs, each containing an enemy role and its position relative to the center.
@@ -78,4 +80,7 @@ Fun fact: the map display was initially used for playtesting and debugging, but 
    * `EAST:` x = relativeY, y = -relativeX
    * `SOUTH:` x = relativeX, y = relativeY
    * `WEST:` x = -relativeY, y = relativeX
- 
+
+#### Boss Design:
+* The demon Baal serves as the final roadblock for the demo, utilizing storm and lightning attacks like the player.
+* Baal is given 3 different attacks to represent the floor, lightning 'jabs'
