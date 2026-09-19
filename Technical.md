@@ -6,7 +6,7 @@ This file serves as a technical explanation of the more complex systems of Heavy
 * **Items:** Items are also structs including stat changes and abilities. Dropped items use a generic 'item' object that references the item's sprite and ID for retrieval.
 * **Enemy Formations:** Enemy formations are picked from a pool of 2 difficulties depending on which stage of the floor you're on. Each enemy's location is stored in regards to the center of the room; when loaded, it simply calculates which way to orient the formation.
 
-### A longer explanation if you're still reading:
+### Detailed Explanation:
 
 #### Room Generation:
 * Each room is defined as a struct containing identifying and gameplay information such as:
@@ -83,4 +83,30 @@ Fun fact: the map display was initially used for playtesting and debugging, but 
 
 #### Boss Design:
 * The demon Baal serves as the final roadblock for the demo, utilizing storm and lightning attacks like the player.
-* Baal is given 3 different attacks to represent the floor, lightning 'jabs'
+* Baal is given 3 different attacks to represent the floor: lightning 'jabs', storm 'zoning', and physical 'rushdowns'.
+ * Jabs summon several choreographed lightning strikes at the players position, forcing movement.
+ * Zoning fires a large thunderstorm at the player and leaves lingering thunder in its wake, restricting the playspace.
+ * Rush-downs pressure the player into focusing on evasion, forcing the player to use different moves and emphasizing the need for speed upgrades.
+* After each move, Baal randomly chooses from a list of moves, with his most recent move occuring at a lower chance than others. This provides a sense of variety while retaining simulated "frustration" from Baal.
+* This frustration is highlighted when Baal is brought down to less than half health, in which his 2-second cooldown between attacks is disabled, forcing the player to deal with the constant pressure of jabs, rushes, and zoning.
+* After Baal's death, the exit door is spawned, releasing the player from the tower (for now).
+
+#### Development Challenges:
+* Procedural generation:
+ * Eventually, I settled on the design described in `ROOM GENERATION` seen above, creating an initial list, then picking certain dead-ends to reward or progress the player.
+ * This proved one of the most difficult hurdles to the first demo, as it required needing an start, treasure room, and exit while retaining playability and avoiding major flaws such as overlapping rooms or missing connections.
+ * The room struct proved to be the most valuable addition to this system, and sort of inspired other struct-focused systems. The ability to check ID, location, and connections from one item streamlined the generation process.
+ * Loops would be necessary, no doubt, but my initial design revolved around the loop running a certain number of times and simply using whatever came out. But going over it again revealed a much more controlled approach in simply not incrementing if there is a room there.
+
+* Camera and visuals:
+ * A common problem I had while designing an implementing special rooms was updating the background and camera viewport.
+  * The background was preset as the basic room design and struggled to adjust to the smaller treasure and passage rooms. the solution found was to redraw the background below everything upon entering each room.
+  * The camera wouldn't adjust to rooms with separate parameters, leading to the play-space being stretched or pushed to the corner of the viewport. Like the background, the camera is set to adjust to the room's width and height properties.
+ * In prior versions, the health, mana, and item displays were placed inside the viewport, obstructing enemies or key gameplay visuals. Eventually, experimentation with GUI elements expanded possibilities of the interface, providing a natural solution to a common testing issue.
+
+* Attacks and the combat system:
+ * Initial versions of the base surge and lightning attacks revealed problems.
+  * The Surge, intended to be a crowd-controlling, low-damage projectile, only hit one enemy at a time. The initial code was scrapped in favor of chipping damage that hits the enemy constantly.
+  * Lightning Bolts, the precision range attack, summoned a solid sprite and hit the furthest enemy from its start (for some reason). Thus it was changed to be an invisible projectile that stretched the sprite from its point of fire, then destroys itself on collision.
+ * For a while, the Player's main attacks remained the base surge cloud and lightning bolt, however the architecture proved troublesome when implementing the free-form lightning bolt (Thunderstruck) and close range shock (It Be Nice).
+  * Eventually, the final attack decision was moved to an `attacks` function, receiving both the players charge level and which attack type to use. This simplified the Player code and gave room for expansion, while also providing a clean interaction for the perk attacks.
